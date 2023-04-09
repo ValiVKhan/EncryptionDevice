@@ -1,0 +1,14 @@
+
+this
+is
+a sample of what
+
+the program 
+
+does 
+
+it is able to 
+
+encrypt it creating a unique key
+
+and then decrypt it
