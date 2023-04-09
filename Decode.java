@@ -13,16 +13,17 @@ public class Decode {
     private static String s = new String(IntStream.rangeClosed(32, 126).toArray(), 0, 95);
     private static char[] ascii = s.toCharArray();
 
-    public static File decodeFile(File givenFile, int level) throws IOException{
+    public static File decodeFile(File givenFile) throws IOException{
 
         file = givenFile;
         BufferedReader br = new BufferedReader(new FileReader(file));
 
         String st = br.readLine();
+        int level = Integer.parseInt(br.readLine());
         // parse array
         HashMap<String, Character> key = getReverseKey(st, level);
 
-        try (//String newName = givenFile.getName() + "encoded";
+        try (
         FileWriter myWriter = createBaseFile(givenFile)) {
             st = br.readLine();
             myWriter.append("\n");
@@ -34,7 +35,8 @@ public class Decode {
                         break;
                     }
                     String value = st.substring(begin, end);
-                    char val = key.get(value);
+
+                    char val = (char) key.get(value);
                     begin += level+1;
                     end += level+1;
                     myWriter.append(val);
@@ -52,14 +54,16 @@ public class Decode {
     private static HashMap<String, Character> getReverseKey(String parse, int length){
 
         HashMap<String, Character> revKey = new HashMap<>();
-        int begin = 3;
-        int end = 4 + length;
-        for (int i = 0; i < ascii.length; i++){
-            String num = parse.substring(begin, end);
-            //System.out.println(num + " " + ascii[i]);
-            revKey.put(num, ascii[i]);
-            begin += length + 5;
-            end += length + 5;
+
+        int lenCount = 0;
+        int asciiCount = 0;
+        while (lenCount < parse.length()){
+            if (parse.charAt(lenCount) == '='){
+
+                revKey.put(parse.substring(lenCount+1, lenCount+length+2), ascii[asciiCount]);
+                asciiCount++;
+            }
+            lenCount++;
         }
 
         return revKey;

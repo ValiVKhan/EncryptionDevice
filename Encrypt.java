@@ -14,7 +14,7 @@ public class Encrypt {
 
     public static void encryptFile(File givenFile, int level) throws Exception{
 
-        HashMap<Character, Integer> key = Key.createKey(level);
+        HashMap<Integer, Integer> key = Key.createKey(level);
         file = givenFile;
         BufferedReader br = new BufferedReader(new FileReader(file));
  
@@ -24,12 +24,12 @@ public class Encrypt {
             throw new Exception("file cannot be blank");
         }
         try (//String newName = givenFile.getName() + "encoded";
-        FileWriter myWriter = createBaseFile(givenFile, key)) {
+        FileWriter myWriter = createBaseFile(givenFile, key, level)) {
             myWriter.append("\n");
             while (st != null){
 
                 for (int i = 0; i < st.length(); i++){
-                    String encoded = key.get(st.charAt(i)) + "";
+                    String encoded = key.get((int)st.charAt(i)) + "";
                     CharSequence cs = encoded;
                     myWriter.append(cs);
                 }
@@ -39,7 +39,7 @@ public class Encrypt {
         }
     }
 
-    private static FileWriter createBaseFile(File givenFile, HashMap<Character, Integer> key) throws IOException{
+    private static FileWriter createBaseFile(File givenFile, HashMap<Integer, Integer> key, int level) throws IOException{
         String curName = givenFile.getName();
         int till = curName.indexOf(".txt");
         StringBuilder newName = new StringBuilder();
@@ -49,6 +49,9 @@ public class Encrypt {
         newName.append("_encrypted.txt");
         FileWriter myWriter = new FileWriter(newName.toString());
         myWriter.append(key.toString());
+        myWriter.append("\n");
+        myWriter.append(level+"");
+
         return myWriter;
     }
     
