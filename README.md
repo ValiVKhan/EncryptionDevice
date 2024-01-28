@@ -25,11 +25,10 @@ Copy code
 java Active
 ### Usage
 Upon running the application, you will be prompted to select one of the following options:
-
-Ecrypt File
-Decode encrypted file
-Quit system
-Enter the corresponding number to perform the desired action.
+1. Ecrypt File
+2. Decode encrypted file
+3. Quit system
+4. Enter the corresponding number to perform the desired action.
 
 ### Encrypting a File
 To encrypt a file, follow these steps:
